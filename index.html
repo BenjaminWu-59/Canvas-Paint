@@ -20,31 +20,40 @@
         //在此变量中，使canvas绘布等于html的body的宽高
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
-        let painting = false
         ctx.fillStyle = "black";
-        ctx.strokeStyle = 'none' ;
-        canvas.onmousedown = () => {
-            painting = true
+        ctx.strokeStyle = "none";
+        let painting = false;
+        var isTouchDevice = "ontouchstart" in document.documentElement;
+        if (isTouchDevice) {
+          canvas.ontouchmove = (e) => {
+            let x = e.touches[0].clientX;
+            let y = e.touches[0].clientY;
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fill();
+          };
+        } else {
+          canvas.onmousedown = () => {
+            painting = true;
+          };
         }
+        //上述代码作用于手机屏幕
+
         canvas.onmousemove = (e) => {
-            if(painting === true){
-                ctx.beginPath();
-                ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.fill();
-            }else{
-                console.log('nothing')
-            }
-            
-        }
-        
+          if (painting === true) {
+            ctx.beginPath();
+            ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fill();
+          } else {
+            console.log("nothing");
+          }
+        };
+
         canvas.onmouseup = () => {
-            painting = false
-        }
-
-
-
-
+          painting = false;
+        };
       </script>
     </canvas>
   </body>
