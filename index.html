@@ -11,31 +11,41 @@
   </head>
   <link rel="stylesheet" href="style.css" />
   <body>
-    <div id="canvas">
+    <canvas id="canvas" width="100" height="100">
       <script>
-        canvas.onmousemove = (e) => { // onmousemove连续移动 onclick点击
-          console.log(e.clientX);
-          console.log(e.clientY);
-          let div = document.createElement("div");
-          ////及至此处，意为：创建了一个鼠标可以连移动的，并且能知道鼠标定位div
-          div.style.position = "absolute";
-          div.style.left = e.clientX + "px";
-          div.style.top = e.clientY + "px";
-          //建立绝对定位，并知道其XY的位置
-          div.style.border = "1px solid black";
-          div.style.width = "6px";
-          div.style.height = "6px";
-          div.style.marginLeft = "-3px";
-          div.style.marginTop = "-3px";
-          //上面4个代码调整div与鼠标的位置
-          div.style.borderRadius = "50%";
-          div.style.backgroundColor = 'black';
-          //鼠标点击的东西变成圆球
-          canvas.appendChild(div);//使我们创建的该div放在index.html中
-        };
-        //此行为过于笨重，不如用canvas//
+        var canvas = document.getElementById("canvas");
+        //创建一个含有getElementById("canvas")属性的变量
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        //在此变量中，使canvas绘布等于html的body的宽高
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        let painting = false
+        ctx.fillStyle = "black";
+        ctx.strokeStyle = 'none' ;
+        canvas.onmousedown = () => {
+            painting = true
+        }
+        canvas.onmousemove = (e) => {
+            if(painting === true){
+                ctx.beginPath();
+                ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill();
+            }else{
+                console.log('nothing')
+            }
+            
+        }
+        
+        canvas.onmouseup = () => {
+            painting = false
+        }
+
+
+
+
       </script>
-      
-    </div>
+    </canvas>
   </body>
 </html>
