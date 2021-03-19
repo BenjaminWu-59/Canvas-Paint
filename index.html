@@ -13,11 +13,11 @@
   <body>
     <div id="canvas">
       <script>
-        canvas.onclick = (e) => {
+        canvas.onmousemove = (e) => { // onmousemove连续移动 onclick点击
           console.log(e.clientX);
           console.log(e.clientY);
           let div = document.createElement("div");
-           //创建一个当鼠标点击时，出现框子的div
+          ////及至此处，意为：创建了一个鼠标可以连移动的，并且能知道鼠标定位div
           div.style.position = "absolute";
           div.style.left = e.clientX + "px";
           div.style.top = e.clientY + "px";
@@ -33,7 +33,9 @@
           //鼠标点击的东西变成圆球
           canvas.appendChild(div);//使我们创建的该div放在index.html中
         };
+        //此行为过于笨重，不如用canvas//
       </script>
+      
     </div>
   </body>
 </html>
