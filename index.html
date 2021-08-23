@@ -19,40 +19,56 @@
         canvas.height = document.documentElement.clientHeight;
         //在此变量中，使canvas绘布等于html的body的宽高
         let ctx = canvas.getContext("2d");
+
         ctx.fillStyle = "black";
         ctx.strokeStyle = "none";
+        ctx.lineWidth = 8;
+        ctx.lineCap = "round";
+
+        function drawLine(x1, y1, x2, y2) {
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+
         let painting = false;
+        let last;
         let isTouchDevice = "ontouchstart" in document.documentElement;
         if (isTouchDevice) {
+          canvas.ontouchstart = (e) => {
+            let x = e.touches[0].clientX;
+            let y = e.touches[0].clientY;
+            last = [x, y];
+          };
+
           canvas.ontouchmove = (e) => {
             let x = e.touches[0].clientX;
             let y = e.touches[0].clientY;
-            ctx.beginPath();
-            ctx.arc(x, y, 10, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.fill();
-          };
-        } else {
-          canvas.onmousedown = () => {
-            painting = true;
+            drawLine(last[0], last[1], x, y);
+            last = [x, y];
           };
         }
-        //上述代码作用于手机屏幕
+        //上面是手机相关，下面是网页相关
+        else {
+          canvas.onmousedown = (e) => {
+            painting = true;
+            last = [e.clientX, e.clientY];
+          };
 
-        canvas.onmousemove = (e) => {
-          if (painting === true) {
-            ctx.beginPath();
-            ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.fill();
-          } else {
-            console.log("nothing");
-          }
-        };
+          canvas.onmousemove = (e) => {
+            if (painting === true) {
+              drawLine(last[0], last[1], e.clientX, e.clientY);
+              last = [e.clientX, e.clientY];
+            } else {
+              console.log("nothing");
+            }
+          };
 
-        canvas.onmouseup = () => {
-          painting = false;
-        };
+          canvas.onmouseup = () => {
+            painting = false;
+          };
+        }
       </script>
     </canvas>
   </body>
