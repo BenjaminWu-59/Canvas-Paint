@@ -13,17 +13,16 @@
   <body>
     <canvas id="canvas" width="100" height="100">
       <script>
-        var canvas = document.getElementById("canvas");
+        let canvas = document.getElementById("canvas");
         //创建一个含有getElementById("canvas")属性的变量
         canvas.width = document.documentElement.clientWidth;
         canvas.height = document.documentElement.clientHeight;
         //在此变量中，使canvas绘布等于html的body的宽高
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
+        let ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
         ctx.strokeStyle = "none";
         let painting = false;
-        var isTouchDevice = "ontouchstart" in document.documentElement;
+        let isTouchDevice = "ontouchstart" in document.documentElement;
         if (isTouchDevice) {
           canvas.ontouchmove = (e) => {
             let x = e.touches[0].clientX;
